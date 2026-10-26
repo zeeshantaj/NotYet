@@ -3,6 +3,7 @@ package com.linkitsoft.notyet
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import com.linkitsoft.notyet.Activities.Greeting
 import com.linkitsoft.notyet.ui.theme.NotYetTheme
 import org.junit.Rule
 import org.junit.Test
