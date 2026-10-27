@@ -22,6 +22,7 @@ import com.linkitsoft.notyet.data.DocumentItem
 import com.linkitsoft.notyet.notifications.ReminderScheduler
 import com.linkitsoft.notyet.ui.screens.AddEditDocumentScreen
 import com.linkitsoft.notyet.ui.screens.HomeScreen
+import com.linkitsoft.notyet.ui.screens.SettingsScreen
 import com.linkitsoft.notyet.ui.theme.NotYetTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -68,6 +69,18 @@ class MainActivity : ComponentActivity() {
                                     val updatedItem = item.copy(expiryEpochDay = newExpiryEpochDay)
                                     dao.updateDocument(updatedItem)
                                     ReminderScheduler.scheduleRemindersForItem(applicationContext, updatedItem)
+                                }
+                            },
+                            onSettingsClick = { navController.navigate("settings") }
+                        )
+                    }
+
+                    composable("settings") {
+                        SettingsScreen(
+                            onBackClick = { navController.popBackStack() },
+                            onRequestPermissionClick = {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                                 }
                             }
                         )

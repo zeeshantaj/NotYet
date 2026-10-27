@@ -42,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -51,6 +52,7 @@ import com.linkitsoft.notyet.R
 import com.linkitsoft.notyet.data.DocumentCategory
 import com.linkitsoft.notyet.data.DocumentItem
 import com.linkitsoft.notyet.data.ExpiryStatus
+import com.linkitsoft.notyet.data.SettingsManager
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
@@ -62,10 +64,13 @@ fun AddEditDocumentScreen(
     onBackClick: () -> Unit,
     onSaveClick: (title: String, category: DocumentCategory, expiryEpochDay: Long, reminderDays: List<Int>, notes: String) -> Unit,
 ) {
+    val context = LocalContext.current
+    val settingsManager = remember { SettingsManager(context) }
+
     var title by remember { mutableStateOf(existingItem?.title ?: "") }
     var selectedCategory by remember { mutableStateOf(existingItem?.category ?: DocumentCategory.PASSPORT) }
     var expiryEpochDay by remember { mutableStateOf(existingItem?.expiryEpochDay ?: (ExpiryStatus.currentEpochDay() + 30)) }
-    var reminderDays by remember { mutableStateOf(existingItem?.reminderDays ?: listOf(90, 30, 7, 1)) }
+    var reminderDays by remember { mutableStateOf(existingItem?.reminderDays ?: settingsManager.defaultReminderDays) }
     var notes by remember { mutableStateOf(existingItem?.notes ?: "") }
     var customReminderInput by remember { mutableStateOf("") }
 
